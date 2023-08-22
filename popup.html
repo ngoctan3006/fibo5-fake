@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="px-3 py-4">
+        <div class="d-flex align-items-start">
+          <div
+            class="nav flex-column nav-pills me-3 border-end pe-2"
+            id="v-pills-tab"
+            role="tablist"
+            aria-orientation="vertical"
+          >
+            <button
+              class="nav-link active"
+              id="v-pills-trans-his-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-trans-his"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-trans-his"
+              aria-selected="true"
+            >
+              Lịch sử nạp tiền
+            </button>
+            <button
+              class="nav-link"
+              id="v-pills-deposit-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-deposit"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-deposit"
+              aria-selected="false"
+            >
+              Nạp tiền
+            </button>
+            <button
+              class="nav-link"
+              id="v-pills-add-com-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-add-com"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-add-com"
+              aria-selected="false"
+            >
+              Thêm hoa hồng
+            </button>
+            <button
+              class="nav-link"
+              id="v-pills-assets-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-assets"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-assets"
+              aria-selected="true"
+            >
+              Tổng tài sản
+            </button>
+          </div>
+          <div class="tab-content" id="v-pills-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="v-pills-trans-his"
+              role="tabpanel"
+              aria-labelledby="v-pills-trans-his-tab"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Thời gian</th>
+                    <th scope="col">Giá trị</th>
+                    <th scope="col">Loại</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">Ghi chú</th>
+                    <th scope="col">Xoá</th>
+                  </tr>
+                </thead>
+                <tbody id="his-table-body"></tbody>
+              </table>
+              <button id="clear-trans-his" class="btn btn-danger mt-3">Xoá toàn bộ lịch sử</button>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-pills-deposit"
+              role="tabpanel"
+              aria-labelledby="v-pills-deposit-tab"
+            >
+              <form id="deposit-form">
+                <div class="mb-3">
+                  <label for="deposit-time" class="form-label"
+                    >Thời gian (2023-07-15 11:25:34)</label
+                  >
+                  <input type="text" class="form-control" id="deposit-time" />
+                </div>
+                <div class="mb-3">
+                  <label for="deposit-amount" class="form-label"
+                    >Giá trị USDT (Tối thiểu 5 USDT)</label
+                  >
+                  <input type="text" class="form-control" id="deposit-amount" required />
+                </div>
+                <div class="mb-3">
+                  <label for="sender-nickname" class="form-label">Biệt danh người gửi</label>
+                  <input type="tex" class="form-control" id="sender-nickname" required />
+                  <div id="sender-nickname-help" class="form-text">
+                    Nếu không phải nạp tiền nội bộ thì nhập địa chỉ ví
+                    (0x83a0469619f5265df39402536a40ebfedd33b74829650c4b07c2e5b1b834ad5f)
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="deposit-note" class="form-label">Ghi chú (không bắt buộc)</label>
+                  <input type="tex" class="form-control" id="deposit-note" />
+                </div>
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    checked
+                    id="is-deposit-internal"
+                  />
+                  <label class="form-check-label" for="is-deposit-internal">Nạp tiền nội bộ</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Ok</button>
+              </form>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-pills-add-com"
+              role="tabpanel"
+              aria-labelledby="v-pills-add-com-tab"
+            >
+              <form id="add-com-form">
+                <div class="mb-3">
+                  <label for="add-com" class="form-label">Nhập hoa hồng</label>
+                  <input type="text" class="form-control" id="add-com" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="add-com-btn">Xác nhận</button>
+              </form>
+              <button class="btn btn-danger mt-3" id="clear-com-btn">Xoá lịch sử hoa hồng</button>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="v-pills-assets"
+              role="tabpanel"
+              aria-labelledby="v-pills-assets-tab"
+            >
+              <form id="assets-form">
+                <div class="mb-3">
+                  <label for="assets" class="form-label">Nhập tổng tài sản</label>
+                  <input type="text" class="form-control" id="assets" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="assets-btn">Xác nhận</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

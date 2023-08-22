@@ -1,0 +1,8 @@
+.container {
+  min-width: 800px;
+  min-height: 500px;
+}
+
+.container .tab-content {
+  flex: 1;
+}

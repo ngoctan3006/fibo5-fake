@@ -1,0 +1,21 @@
+{
+  "name": "Chrome Extension",
+  "description": "Example extension",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "serviceWorker.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["tabs", "storage", "activeTab", "scripting", "webNavigation"],
+  "host_permissions": ["https://fibowin5.com/*"],
+  "content_scripts": [
+    {
+      "js": ["js/content.js"],
+      "matches": ["https://fibowin5.com/*"],
+      "run_at": "document_start"
+    }
+  ]
+}
