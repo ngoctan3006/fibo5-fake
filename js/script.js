@@ -35,21 +35,6 @@ const formatTimestamp = (timestamp, formatString) => {
     .replace('ss', seconds);
 };
 
-const assetsForm = document.getElementById('assets-form');
-assetsForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const inputEl = document.getElementById('assets');
-  const val = parseFloat(inputEl.value);
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      action: 'rerenderAssets',
-      data: val,
-    });
-  });
-  chrome.runtime.sendMessage({ action: 'setLocalStorage', data: { total_assets: val } });
-  inputEl.value = '';
-});
-
 const depositForm = document.getElementById('deposit-form');
 depositForm.addEventListener('submit', (e) => {
   e.preventDefault();
