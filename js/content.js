@@ -1,4 +1,5 @@
 let withdrawValue = {};
+let initAssets = 0;
 let totalAssets = 0;
 let liveAccount = 0;
 let USDT = 0;
@@ -50,6 +51,29 @@ const formatTimestamp = (timestamp, formatString) => {
     .replace('mm', minutes)
     .replace('ss', seconds);
 };
+
+const getInitAssets = setInterval(() => {
+  const el = document.querySelector('span.user-balance');
+  if (el) {
+    chrome.runtime.sendMessage({ action: 'getLocalStorage', key: 'trans_his' }, (res) => {
+      transHisData = res.value ? res.value : [];
+      renderHisTable(transHisData);
+
+      chrome.runtime.sendMessage({ action: 'getLocalStorage', key: 'com_his' }, (res) => {
+        comAmount = res.value;
+        initAssets = parseFloat(el.textContent.replace(',', ''));
+        totalAssets =
+          initAssets +
+          comAmount +
+          transHisData.reduce(
+            (prev, curr) => (curr.type === 'deposit' ? prev + curr.amount : prev - curr.amount),
+            0
+          );
+      });
+    });
+    clearInterval(getInitAssets);
+  }
+}, 50);
 
 const changeBalance = (el, value, prefix) => {
   if (!value.toString()) return;
@@ -285,13 +309,6 @@ const fakeNotiCountInterval = setInterval(() => {
   }
 }, 200);
 
-chrome.runtime.sendMessage({ action: 'getLocalStorage', key: 'total_assets' }, (res) => {
-  if (res.value.toString()) {
-    totalAssets = res.value;
-    changeBalance('span.user-balance', totalAssets);
-  }
-});
-
 const changeAssets = (value) => {
   totalAssets = value;
   USDT = totalAssets - liveAccount;
@@ -299,10 +316,6 @@ const changeAssets = (value) => {
   changeBalance('span.coin-value-1', USDT);
   changeBalance('span.coin-value-2', USDT, '~$');
 };
-
-chrome.runtime.sendMessage({ action: 'getLocalStorage', key: 'com_his' }, (res) => {
-  comAmount = res.value;
-});
 
 // setTimeout(() => {
 //   const hideBtnWrap = document.querySelector(
@@ -342,11 +355,6 @@ chrome.runtime.sendMessage({ action: 'getLocalStorage', key: 'com_his' }, (res) 
 //     changeBalance('span.coin-value-2', value);
 //   }
 // };
-
-chrome.runtime.sendMessage({ action: 'getLocalStorage', key: 'trans_his' }, (res) => {
-  transHisData = res.value ? res.value : [];
-  renderHisTable(transHisData);
-});
 
 const renderHisTable = (data) => {
   const hisTable = setInterval(() => {
